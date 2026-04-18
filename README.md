@@ -10,7 +10,7 @@ The goal is to understand the machanics of neural networks, including forward pr
 
 ## Status
 
-- Project setup: 🚧 in progress
+- Project setup: Done
 - Core neural network implementation: 🚧 in progress
 - Visualization: 🚧 in progress
 
