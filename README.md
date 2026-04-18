@@ -13,9 +13,9 @@ The goal is to understand the machanics of neural networks, including forward pr
 - Project setup: Done
 - Core neural network implementation: Done
 - MNIST downloading: Done
-- MNIST loading: 🚧 in progress
-- Weights saving: 🚧 in progress
+- MNIST loading: Done
 - Visualization: 🚧 in progress
+- Weights saving: 🚧 in progress
 
 ## Current Results
 
