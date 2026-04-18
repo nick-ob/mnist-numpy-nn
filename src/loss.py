@@ -1,4 +1,4 @@
-"""File containing the loss logic, represented as classes.
+"""File containing the loss logic, represented as a class.
 
 Usage example:
 
