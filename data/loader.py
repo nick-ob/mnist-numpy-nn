@@ -1,10 +1,9 @@
 """File for loading MNIST dataset logic.
 """
-
 import os
 import urllib.request
 
-BASE_URL: str = "http://yann.lecun.com/exdb/mnist/"
+BASE_URL: str = "https://storage.googleapis.com/cvdf-datasets/mnist/"
 
 FILES: list[str] = [
     "train-images-idx3-ubyte.gz",
@@ -15,12 +14,16 @@ FILES: list[str] = [
 
 # get the folder relative to this file
 SCRIPT_DIR: str = os.path.dirname(os.path.abspath(__file__))
-OUT_DIR: str = os.path.join(SCRIPT_DIR, "data")
 
 def download(filename:str) -> None:
+    """Download a file from the BASE_URL and save it to the folder that contains this script.
+
+    Args:
+        filename: The name of the file that should be downloaded.
+    """
     url = BASE_URL + filename
 
-    out_path: str = os.path.join(OUT_DIR, filename)
+    out_path: str = os.path.join(SCRIPT_DIR, filename)
 
     # skip if already downloaded
     if os.path.exists(out_path):
@@ -31,10 +34,14 @@ def download(filename:str) -> None:
     print(f"{filename} saved to {out_path}")
 
 def main() -> None:
+    """Download all of the MNIST data from the BASE_URL.
+    """
+    print(f"Download MNIST dataset from {BASE_URL}\n")
+
     for file in FILES:
         download(file)
 
-    print(f"\nDone. All MNIST dataset saved in {OUT_DIR}")
+    print(f"\nDone. All MNIST dataset saved in {SCRIPT_DIR}")
 
 if __name__ == "__main__":
     main()
