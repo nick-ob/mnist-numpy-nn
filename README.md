@@ -1,0 +1,19 @@
+# MNIST Neural Network from Scratch (NumPy)
+
+🚧 Work in progress 🚧
+
+## About
+
+This project implements a simple neural network from scratch using only NumPy to classify handwritten digits from the MNIST dataset.
+
+The goal is to understand the machanics of neural networks, including forward propagation, backpropagation and gradient-based optimization.
+
+## Status
+
+- Project setup: 🚧 in progress
+- Core neural network implementation: 🚧 in progress
+- Visualization: 🚧 in progress
+
+## Current Results
+
+(To be added)
