@@ -31,6 +31,10 @@ class Network:
         self.__arch = nodes
         self.__layers = self.__init_layers(nodes)
 
+    def whoami(self) -> None:
+        print(self.__arch)
+        print(self.__layers)
+
     def __init_layers(self, nodes: tuple[int]) -> list:
         """Takes a tuple containing layer nodes and creates a list of actual layers.
 
@@ -189,3 +193,46 @@ class Network:
 
         # save architecture and all parameters
         np.savez(save_dir, arch=self.__arch, **params)
+
+    @classmethod
+    def load(cls, name: str) -> 'Network':
+        """Load network from a saved file stat.
+
+        Args:
+            name: The name under which the network was saved.
+        """
+        # folder of this file
+        src_dir = os.path.dirname(os.path.abspath(__file__))
+        # go back one step (into the project root), then into the data folder
+        root_dir = os.path.dirname(src_dir)
+        data_dir = os.path.join(root_dir, "data")
+        saved_dir = os.path.join(data_dir, f"{name}.npz")
+
+        # make sure file exists
+        existing_files = os.listdir(data_dir)
+        if f"{name}.npz" not in existing_files:
+            raise FileNotFoundError(
+                f"Network data does not exist in {data_dir}. Missing: {f"{name}.npz"}\n"
+                f"Try checking which files exist, perhaps the wrong name was entered."
+            )
+
+        # restore architecture and parameters
+        with np.load(saved_dir) as data:
+            arch = data["arch"]
+
+            params: dict[str, np.ndarray] = {}
+
+            for key in data.files:
+                if key != "arch":
+                    params[key] = data[key]
+
+        # create network and load weights into it
+        network = cls(*arch)
+        i = 0
+        for layer in network.__layers[::2]:
+            w = params[f"w_{i}"]
+            b = params[f"b_{i}"]
+            layer.set_params(w, b)
+            i += 2
+
+        return network
