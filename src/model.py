@@ -179,7 +179,7 @@ class Network:
         src_dir = os.path.dirname(os.path.abspath(__file__))
         # go back one step (into the project root), then into the data folder
         root_dir = os.path.dirname(src_dir)
-        save_dir = os.path.join(root_dir, "data", name)
+        save_dir = os.path.join(root_dir, "data", "networks", name)
 
         params: dict[str, np.ndarray] = {}
 
@@ -205,14 +205,14 @@ class Network:
         src_dir = os.path.dirname(os.path.abspath(__file__))
         # go back one step (into the project root), then into the data folder
         root_dir = os.path.dirname(src_dir)
-        data_dir = os.path.join(root_dir, "data")
-        saved_dir = os.path.join(data_dir, f"{name}.npz")
+        nw_dir = os.path.join(root_dir, "data", "networks")
+        saved_dir = os.path.join(nw_dir, f"{name}.npz")
 
         # make sure file exists
-        existing_files = os.listdir(data_dir)
+        existing_files = os.listdir(nw_dir)
         if f"{name}.npz" not in existing_files:
             raise FileNotFoundError(
-                f"Network data does not exist in {data_dir}. Missing: {f"{name}.npz"}\n"
+                f"Network data does not exist in {nw_dir}. Missing: {f"{name}.npz"}\n"
                 f"Try checking which files exist, perhaps the wrong name was entered."
             )
 

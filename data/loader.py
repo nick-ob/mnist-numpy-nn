@@ -23,7 +23,7 @@ def download(filename:str) -> None:
     """
     url = BASE_URL + filename
 
-    out_path: str = os.path.join(SCRIPT_DIR, filename)
+    out_path: str = os.path.join(SCRIPT_DIR, "mnist", filename)
 
     # skip if already downloaded
     if os.path.exists(out_path):
