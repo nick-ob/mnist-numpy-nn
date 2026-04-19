@@ -28,7 +28,7 @@ Further visualisation can be found [here](results/).
 - Training loop: ✔ complete
 - First tests: ✔ complete
 - Visualization: 🚧 in progress
-- Weight saving/loading: 🚧 in progress
+- Weight saving/loading: ✔ complete
 - Code cleanup & refactoring: 🚧 in progress
 
 ## What I’m focusing on next
