@@ -10,8 +10,6 @@ to classify handwritten digits from the MNIST dataset.
 The goal is to understand the internal mechanics of neural networks,
 including forward propagation, backpropagation, and gradient-based optimization.
 
----
-
 ## Current Results
 
 ### Training Loss
@@ -20,8 +18,6 @@ including forward propagation, backpropagation, and gradient-based optimization.
 
 The model shows a clear decrease in training loss over epochs,
 indicating that it is successfully learning from the data.
-
----
 
 ## Status
 
@@ -33,15 +29,11 @@ indicating that it is successfully learning from the data.
 - Weight saving/loading: 🚧 in progress
 - Code cleanup & refactoring: 🚧 in progress
 
----
-
 ## What I’m focusing on next
 
 - Add accuracy tracking
 - Add confusion matrix visualization
 - Save and reload trained model weights
-
----
 
 ## Tech Stack
 
@@ -49,8 +41,6 @@ indicating that it is successfully learning from the data.
 - NumPy
 - Seaborn
 - Matplotlib
-
----
 
 ## Notes
 
