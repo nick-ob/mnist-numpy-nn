@@ -9,3 +9,44 @@
 #       format_version: '1.3'
 #       jupytext_version: 1.19.1
 # ---
+
+# %%
+"""This is the main entry point file.
+
+See also notebooks/main.ipynb for a jupyter notebook version.
+"""
+
+# %%
+from src.utils import load_mnist
+from src.model import Network
+from src.loss import Loss
+
+# %% [markdown]
+# ## Load MNIST dataset
+# Be sure to have downloaded the raw data using data/loader.py
+
+# %%
+(x_train, y_train), (x_test, y_test) = load_mnist()
+print(f"Training shapes: {x_train.shape} & {y_train.shape}")
+print(f"Testing shapes: {x_test.shape} & {y_test.shape}")
+
+# %% [markdown]
+# ## Initialise the network
+
+# %%
+network = Network(x_train.shape[1], 64, 32, y_train.shape[1])
+
+# %% [markdown]
+# ## Training the network
+
+# %%
+network.train((x_train, y_train), 0.1, 5000, batch_size=512)
+
+# %% [markdown]
+# ## Testing the network
+
+# %%
+l = Loss()
+test_pred = network.forward_feed(x_test)
+print(f"Testing accuracy: {l.accuracy(test_pred, y_test)}%")
+
