@@ -42,7 +42,8 @@ network = Network(x_train.shape[1], 64, 32, y_train.shape[1])
 # ## Training the network
 
 # %%
-history = network.train((x_train, y_train), 0.1, 50, batch_size=512)
+history = network.train((x_train, y_train), 0.1, 4000, batch_size=512)
+network.save("arch_784_64_32_10-lr_01-its_4000-bs_512")
 print()
 
 # %% [markdown]
@@ -55,6 +56,6 @@ pred, act, acc = network.test((x_test, y_test))
 # ## Saving the results
 
 # %%
-# save_cost(history["cost"])
-# save_accuracy(history["accuracy"])
-# save_confusion_matrix(pred, act)
+save_cost(history["cost"])
+save_accuracy(history["accuracy"])
+save_confusion_matrix(pred, act)
