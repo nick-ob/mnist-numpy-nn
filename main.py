@@ -17,7 +17,7 @@ See also notebooks/main.ipynb for a jupyter notebook version.
 """
 
 # %%
-from src.utils import load_mnist
+from src.loading import load_mnist
 from src.model import Network
 
 # %% [markdown]

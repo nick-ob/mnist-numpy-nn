@@ -1,4 +1,4 @@
-"""Utils file containing various helper functions.
+"""File containing logic of loading raw MNIST data into usable numpy arrays.
 
 Usage Example:
 
