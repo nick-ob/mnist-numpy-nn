@@ -103,16 +103,17 @@ class Network:
         # only use first n (batch size) rows of shuffled data
         return (result[0][:batch_size], result[1][:batch_size])
 
-    def train(self, x: np.ndarray, learning_rate: float, y: np.ndarray, its: int, batch_size: int = None) -> None:
+    def train(self, data: tuple[np.ndarray, np.ndarray], learning_rate: float, its: int, batch_size: int = None) -> None:
         """Train the network on provided training data.
 
         Args:
-            x: The input for the training data.
+            data: The input and labels for the training data.
             learning_rate: The learning rate used for gradient descent.
-            y: The actual labels for the training data.
             its: The amount of training iterations.
             batch_size: The size of the "mini" batches used to train. Defaults to None. If None, then the full dataset is used.
         """
+        x, y = data
+
         l = Loss()
 
         print("Learning...")

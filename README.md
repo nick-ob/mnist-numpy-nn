@@ -4,9 +4,11 @@
 
 ## About
 
-This project implements a simple neural network from scratch using only NumPy to classify handwritten digits from the MNIST dataset.
+This project implements a simple neural network from scratch using only NumPy
+to classify handwritten digits from the MNIST dataset.
 
-The goal is to understand the machanics of neural networks, including forward propagation, backpropagation and gradient-based optimization.
+The goal is to understand the machanics of neural networks, including forward
+propagation, backpropagation and gradient-based optimization.
 
 ## Status
 
