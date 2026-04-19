@@ -50,7 +50,7 @@ class Network:
         layers[-1] = Softmax()
         return layers
 
-    def forward_feed(self, x: np.ndarray) -> np.ndarray:
+    def __forward_feed(self, x: np.ndarray) -> np.ndarray:
         """Forward propagate through all of the layers.
 
         Args:
@@ -65,7 +65,7 @@ class Network:
 
         return x
 
-    def backpropagate(self, delta: np.ndarray, learning_rate: float) -> None:
+    def __backpropagate(self, delta: np.ndarray, learning_rate: float) -> None:
         """Backpropagate through all network layers.
 
         Args:
@@ -127,8 +127,8 @@ class Network:
             x_b, y_b = self.__get_batch(x, y, batch_size)
 
             # forward feed and backpropagate through the network
-            y_pred = self.forward_feed(x_b)
-            self.backpropagate(l.delta(y_pred, y_b), learning_rate)
+            y_pred = self.__forward_feed(x_b)
+            self.__backpropagate(l.delta(y_pred, y_b), learning_rate)
 
             # add stats to history
             loss: float = l.cost(y_pred, y_b)
@@ -143,7 +143,7 @@ class Network:
 
             print(f"\r[{progress_bar}] {i}/{its} | Batch accuracy: {accuracy}%", end="", flush=True)
 
-        y_pred = self.forward_feed(x)
+        y_pred = self.__forward_feed(x)
         print(f"\nLearning completed! Ending accuracy: {l.accuracy(y_pred, y)}%")
         return history
 
@@ -157,6 +157,6 @@ class Network:
 
         l = Loss()
 
-        pred = self.forward_feed(x)
+        pred = self.__forward_feed(x)
         print(f"Testing accuracy: {l.accuracy(pred, y)}%")
 
