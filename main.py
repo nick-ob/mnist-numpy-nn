@@ -19,7 +19,6 @@ See also notebooks/main.ipynb for a jupyter notebook version.
 # %%
 from src.utils import load_mnist
 from src.model import Network
-from src.loss import Loss
 
 # %% [markdown]
 # ## Load MNIST dataset
@@ -42,7 +41,7 @@ network = Network(x_train.shape[1], 64, 32, y_train.shape[1])
 # ## Training the network
 
 # %%
-network.train((x_train, y_train), 0.1, 5000, batch_size=512)
+history = network.train((x_train, y_train), 0.1, 5000, batch_size=512)
 print()
 
 # %% [markdown]

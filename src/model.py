@@ -103,7 +103,7 @@ class Network:
         # only use first n (batch size) rows of shuffled data
         return (result[0][:batch_size], result[1][:batch_size])
 
-    def train(self, data: tuple[np.ndarray, np.ndarray], learning_rate: float, its: int, batch_size: int = None) -> None:
+    def train(self, data: tuple[np.ndarray, np.ndarray], learning_rate: float, its: int, batch_size: int = None) -> dict[str, list]:
         """Train the network on provided training data.
 
         Args:
@@ -111,10 +111,14 @@ class Network:
             learning_rate: The learning rate used for gradient descent.
             its: The amount of training iterations.
             batch_size: The size of the "mini" batches used to train. Defaults to None. If None, then the full dataset is used.
+
+        Returns:
+            dict[str, list]: A history of the cost and accuracy of the model.
         """
         x, y = data
 
         l = Loss()
+        history: dict[str, list] = {"cost": [], "accuracy": []}
 
         print("Learning...")
         # training loop
@@ -126,15 +130,22 @@ class Network:
             y_pred = self.forward_feed(x_b)
             self.backpropagate(l.delta(y_pred, y_b), learning_rate)
 
+            # add stats to history
+            loss: float = l.cost(y_pred, y_b)
+            accuracy: float = l.accuracy(y_pred, y_b)
+            history["cost"].append(loss)
+            history["accuracy"].append(accuracy)
+
             # training progress display
             bar_len = 50
             filled = int(bar_len * i / its)
             progress_bar = "#" * filled + " " * (bar_len - filled)
 
-            print(f"\r[{progress_bar}] {i}/{its} | Batch accuracy: {l.accuracy(y_pred, y_b)}%", end="", flush=True)
+            print(f"\r[{progress_bar}] {i}/{its} | Batch accuracy: {accuracy}%", end="", flush=True)
 
         y_pred = self.forward_feed(x)
         print(f"\nLearning completed! Ending accuracy: {l.accuracy(y_pred, y)}%")
+        return history
 
     def test(self, data: tuple[np.ndarray, np.ndarray]) -> None:
         """Test the network with the provided testing data.
