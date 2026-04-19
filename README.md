@@ -1,44 +1,59 @@
-# 🕸️ MNIST Neural Network from Scratch (NumPy)
-
-🚧 Work in progress 🚧
+# 🕸️ Neural Network from Scratch (NumPy)
 
 ## About
 
 This project implements a neural network from scratch using only NumPy
 to classify handwritten digits from the MNIST dataset.
 
-The goal is to understand the internal mechanics of neural networks,
-including forward propagation, backpropagation, and gradient-based optimization.
+The focus is on understanding the internal mechanics of neural networks,
+including forward propagation, backpropagation, and gradient-based optimization,
+without relying on any machine learning frameworks.
 
-## Current Results
+## Results
+
+### Accuracy over Epochs
+
+![Accuracy](results/readme/accuracy_over_epochs.png)
+
+The model’s accuracy improves steadily during training and begins to plateau,
+indicating stable learning.
+
+### Confusion Matrix
+
+![Confusion Matrix](results/readme/confusion_matrix.png)
+
+The majority of digits are classified correctly. Misclassifications tend to occur
+between visually similar digits (e.g. between 4 & 9), suggesting that the model captures general
+patterns well, while still struggling in some cases.
 
 ### Training Loss
 
 ![Training Loss](results/readme/cost_over_epochs.png)
 
-The model shows a clear decrease in training loss over epochs,
-indicating that it is successfully learning from the data.
+The training loss decreases consistently over time, confirming that the model
+is effectively learning through gradient-based optimization.
 
-Further visualisation can be found [here](results/).
+More visualizations and raw outputs are available in the [`results/`](results/) directory.
 
-## Status
+## Project Status
 
-- Core neural network implementation: ✔ complete
-- MNIST data pipeline: ✔ complete
-- Training loop: ✔ complete
-- First tests: ✔ complete
-- Visualization: 🚧 in progress
-- Weight saving/loading: ✔ complete
-- Code cleanup & refactoring: 🚧 in progress
+The core functionality is implemented, including:
+- Neural network training
+- MNIST data pipeline
+- Weight saving and loading
+
+Currently improving:
+- Visualization and result analysis
+- Code cleanup and refactoring
 
 ## Tech Stack
 
 - Python
 - NumPy
-- Seaborn
 - Matplotlib
+- Seaborn
 
 ## Notes
 
-This project avoids high-level ML frameworks to better understand
-the underlying principles of neural networks.
+This project intentionally avoids high-level machine learning frameworks
+to provide a deeper understanding of how neural networks operate internally.
