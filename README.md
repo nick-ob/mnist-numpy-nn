@@ -19,6 +19,8 @@ including forward propagation, backpropagation, and gradient-based optimization.
 The model shows a clear decrease in training loss over epochs,
 indicating that it is successfully learning from the data.
 
+Further visualisation can be found [here](results/).
+
 ## Status
 
 - Core neural network implementation: ✔ complete
@@ -31,7 +33,6 @@ indicating that it is successfully learning from the data.
 
 ## What I’m focusing on next
 
-- Add accuracy tracking
 - Add confusion matrix visualization
 - Save and reload trained model weights
 
