@@ -1,24 +1,58 @@
-# MNIST Neural Network from Scratch (NumPy)
+# 🧠 MNIST Neural Network from Scratch (NumPy)
 
 🚧 Work in progress 🚧
 
 ## About
 
-This project implements a simple neural network from scratch using only NumPy
+This project implements a neural network from scratch using only NumPy
 to classify handwritten digits from the MNIST dataset.
 
-The goal is to understand the machanics of neural networks, including forward
-propagation, backpropagation and gradient-based optimization.
+The goal is to understand the internal mechanics of neural networks,
+including forward propagation, backpropagation, and gradient-based optimization.
 
-## Status
-
-- Project setup: Done
-- Core neural network implementation: Done
-- MNIST downloading: Done
-- MNIST loading: Done
-- Visualization: 🚧 in progress
-- Weights saving: 🚧 in progress
+---
 
 ## Current Results
 
-(To be added)
+### Training Loss
+
+![Training Loss](results/readme/cost_over_epochs.png)
+
+The model shows a clear decrease in training loss over epochs,
+indicating that it is successfully learning from the data.
+
+---
+
+## Status
+
+- Core neural network implementation: ✔ complete
+- MNIST data pipeline: ✔ complete
+- Training loop: ✔ complete
+- First tests: ✔ complete
+- Visualization: 🚧 in progress
+- Weight saving/loading: 🚧 in progress
+- Code cleanup & refactoring: 🚧 in progress
+
+---
+
+## What I’m focusing on next
+
+- Add accuracy tracking
+- Add confusion matrix visualization
+- Save and reload trained model weights
+
+---
+
+## Tech Stack
+
+- Python
+- NumPy
+- Seaborn
+- Matplotlib
+
+---
+
+## Notes
+
+This project avoids high-level ML frameworks to better understand
+the underlying principles of neural networks.
