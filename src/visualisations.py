@@ -47,8 +47,8 @@ def save_cost(cost_history: list) -> None:
     sns.set_theme(style="whitegrid", context="notebook")
     plt.figure(figsize=(9, 5))
 
-    sns.lineplot(data=cost_history, label="Raw", linewidth=1.5, alpha=0.9)
-    sns.lineplot(data=smooth, label="Smoothened", linewidth=2.5)
+    sns.lineplot(data=cost_history, label="Raw", linewidth=1, alpha=0.9, color="purple")
+    sns.lineplot(data=smooth, label="Smoothened", linewidth=1.5, color="black")
 
     plt.title("Training Cost Over Epochs")
     plt.xlabel("Epochs")
@@ -73,8 +73,8 @@ def save_accuracy(acc_history: list) -> None:
     sns.set_theme(style="whitegrid", context="notebook")
     plt.figure(figsize=(9, 5))
 
-    sns.lineplot(data=acc_history, label="Raw", linewidth=1.5, alpha=0.9)
-    sns.lineplot(data=smooth, label="Smoothened", linewidth=2.5)
+    sns.lineplot(data=acc_history, label="Raw", linewidth=1, alpha=0.9, color="purple")
+    sns.lineplot(data=smooth, label="Smoothened", linewidth=1.5, color="black")
 
     plt.title("Training Accuracy Over Epochs")
     plt.xlabel("Epochs")
