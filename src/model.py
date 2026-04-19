@@ -8,7 +8,7 @@ Usage example:
     network.train(x_train, 0.01, y_train)
 """
 import numpy as np
-from src.loss import Loss
+from src.loss import *
 from src.layer import Layer
 from src.activations import Sigmoid, Softmax
 
@@ -117,7 +117,7 @@ class Network:
         """
         x, y = data
 
-        l = Loss()
+        cce = CCE()
         history: dict[str, list] = {"cost": [], "accuracy": []}
 
         print("Learning...")
@@ -128,11 +128,11 @@ class Network:
 
             # forward feed and backpropagate through the network
             y_pred = self.__forward_feed(x_b)
-            self.__backpropagate(l.delta(y_pred, y_b), learning_rate)
+            self.__backpropagate(cce.delta(y_pred, y_b), learning_rate)
 
             # add stats to history
-            loss: float = l.cost(y_pred, y_b)
-            accuracy: float = l.accuracy(y_pred, y_b)
+            loss: float = cce.cost(y_pred, y_b)
+            accuracy: float = accuracy(y_pred, y_b)
             history["cost"].append(loss)
             history["accuracy"].append(accuracy)
 
@@ -144,7 +144,7 @@ class Network:
             print(f"\r[{progress_bar}] {i}/{its} | Batch accuracy: {accuracy}%", end="", flush=True)
 
         y_pred = self.__forward_feed(x)
-        print(f"\nLearning completed! Ending accuracy: {l.accuracy(y_pred, y)}%")
+        print(f"\nLearning completed! Ending accuracy: {accuracy(y_pred, y)}%")
         return history
 
     def test(self, data: tuple[np.ndarray, np.ndarray]) -> None:
@@ -155,8 +155,6 @@ class Network:
         """
         x, y = data
 
-        l = Loss()
-
         pred = self.__forward_feed(x)
-        print(f"Testing accuracy: {l.accuracy(pred, y)}%")
+        print(f"Testing accuracy: {accuracy(pred, y)}%")
 

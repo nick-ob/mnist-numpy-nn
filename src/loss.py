@@ -1,16 +1,16 @@
-"""File containing the loss logic, represented as a class.
+"""File containing the loss logic, represented as a class, as well as metrics represented as functions.
 
 Usage example:
 
-    loss = Loss()
+    cce = CCE()
     predicted = np.array([[1], [0], [1]])
     true = np.array([[0], [1], [1]])
-    cost = loss.cost(predicted, true)
+    cost = cce.cost(predicted, true)
 
 """
 import numpy as np
 
-class Loss:
+class CCE:
     """A class representing the loss calculation of a neural network.
     """
     def cost(self, y_pred: np.ndarray, y_act: np.ndarray) -> float:
@@ -43,20 +43,20 @@ class Loss:
         # this output averaged to stay independant of the amount of batches
         return (y_pred - y_act) / y_pred.shape[0] # shape (batches, categories)
 
-    def accuracy(self, y_pred: np.ndarray, y_act: np.ndarray) -> float:
-        """Compute accuracy of the network.
+def accuracy(y_pred: np.ndarray, y_act: np.ndarray) -> float:
+    """Compute accuracy of the network.
 
-        Args:
-             y_pred: The predicted labels.
-             y_act: The actual labels.
+    Args:
+         y_pred: The predicted labels.
+         y_act: The actual labels.
 
-        Returns
-            float: The accuracy (in percent).
-        """
-        # get the indices of the maximum values
-        predicted = np.argmax(y_pred, axis=1)
-        true = np.argmax(y_act, axis=1)
+    Returns
+        float: The accuracy (in percent).
+    """
+    # get the indices of the maximum values
+    predicted = np.argmax(y_pred, axis=1)
+    true = np.argmax(y_act, axis=1)
 
-        n_correct = np.sum(predicted == true)
+    n_correct = np.sum(predicted == true)
 
-        return round((n_correct / len(true)) * 100, 2)
+    return round((n_correct / len(true)) * 100, 2)

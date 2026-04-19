@@ -41,7 +41,7 @@ network = Network(x_train.shape[1], 64, 32, y_train.shape[1])
 # ## Training the network
 
 # %%
-history = network.train((x_train, y_train), 0.1, 5000, batch_size=512)
+history = network.train((x_train, y_train), 0.1, 5, batch_size=512)
 print()
 
 # %% [markdown]
