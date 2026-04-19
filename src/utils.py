@@ -57,6 +57,25 @@ def load_mnist() -> tuple[tuple[np.ndarray, np.ndarray], tuple[np.ndarray, np.nd
     root_dir = os.path.dirname(src_dir)
     data_dir = os.path.join(root_dir, "data")
 
+    # make sure all raw files exist
+    required_files = {
+        "train-images-idx3-ubyte.gz",
+        "train-labels-idx1-ubyte.gz",
+        "t10k-images-idx3-ubyte.gz",
+        "t10k-labels-idx1-ubyte.gz",
+    }
+
+    existing_files = set(os.listdir(data_dir))
+
+    # take difference of sets (all elements in required but not in existing)
+    missing = required_files - existing_files
+
+    if missing:
+        raise FileNotFoundError(
+            f"MNIST data does not exist in {data_dir}. Missing: {missing}\n"
+            f"Try running data/loader.py (python data/loader.py) to install the MNIST data."
+        )
+
     # load data into np.arrays
     x_train: np.ndarray = load_images(os.path.join(data_dir, "train-images-idx3-ubyte.gz"))
     y_train: np.ndarray = load_labels(os.path.join(data_dir, "train-labels-idx1-ubyte.gz"))
