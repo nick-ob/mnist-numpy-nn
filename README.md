@@ -1,4 +1,4 @@
-# 🧠 MNIST Neural Network from Scratch (NumPy)
+# 🕸️ MNIST Neural Network from Scratch (NumPy)
 
 🚧 Work in progress 🚧
 
