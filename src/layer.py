@@ -68,3 +68,21 @@ class Layer:
         delta = delta @ self.__w.T # shape (batches, in_nodes) - for the previous layer
 
         return delta
+
+    def get_params(self) -> tuple[np.ndarray, np.ndarray]:
+        """Get the layers parameters (weights and biases).
+
+        Returns:
+            tuple[np.ndarray, np.ndarray]: The weights and biases matrices.
+        """
+        return (self.__w, self.__b)
+
+    def set_params(self, weights: np.ndarray, biases: np.ndarray) -> None:
+        """Set the layers parameters (weights and biases).
+
+        Args:
+            weights: The weights matrix to set.
+            biases: The bias matrix to set.
+        """
+        self.__w = weights
+        self.__b = biases
