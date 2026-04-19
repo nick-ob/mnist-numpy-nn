@@ -8,7 +8,7 @@ import os
 import gzip as gz
 import numpy as np
 
-def load_mnist() -> tuple[tuple[np.ndarray, np.ndarray]]:
+def load_mnist() -> tuple[tuple[np.ndarray, np.ndarray], tuple[np.ndarray, np.ndarray]]:
     """Load the MNIST dataset from raw .gz files.
 
     Returns:
