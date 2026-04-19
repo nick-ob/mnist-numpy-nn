@@ -31,11 +31,6 @@ Further visualisation can be found [here](results/).
 - Weight saving/loading: ✔ complete
 - Code cleanup & refactoring: 🚧 in progress
 
-## What I’m focusing on next
-
-- Add confusion matrix visualization
-- Save and reload trained model weights
-
 ## Tech Stack
 
 - Python
