@@ -14,6 +14,8 @@ FILES: list[str] = [
 
 # get the folder relative to this file
 SCRIPT_DIR: str = os.path.dirname(os.path.abspath(__file__))
+MNIST_DIR: str = os.path.join(SCRIPT_DIR, "mnist")
+os.makedirs(MNIST_DIR, exist_ok=True)
 
 def download(filename:str) -> None:
     """Download a file from the BASE_URL and save it to the folder that contains this script.
@@ -23,7 +25,7 @@ def download(filename:str) -> None:
     """
     url = BASE_URL + filename
 
-    out_path: str = os.path.join(SCRIPT_DIR, "mnist", filename)
+    out_path: str = os.path.join(MNIST_DIR, filename)
 
     # skip if already downloaded
     if os.path.exists(out_path):
