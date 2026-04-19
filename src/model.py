@@ -8,7 +8,7 @@ Usage example:
     network.train(x_train, 0.01, y_train)
 """
 import numpy as np
-from src.loss import *
+from src.loss import CCE, accuracy
 from src.layer import Layer
 from src.activations import Sigmoid, Softmax
 
@@ -132,16 +132,16 @@ class Network:
 
             # add stats to history
             loss: float = cce.cost(y_pred, y_b)
-            accuracy: float = accuracy(y_pred, y_b)
+            acc: float = accuracy(y_pred, y_b)
             history["cost"].append(loss)
-            history["accuracy"].append(accuracy)
+            history["accuracy"].append(acc)
 
             # training progress display
             bar_len = 50
             filled = int(bar_len * i / its)
             progress_bar = "#" * filled + " " * (bar_len - filled)
 
-            print(f"\r[{progress_bar}] {i}/{its} | Batch accuracy: {accuracy}%", end="", flush=True)
+            print(f"\r[{progress_bar}] {i}/{its} | Batch accuracy: {acc}%", end="", flush=True)
 
         y_pred = self.__forward_feed(x)
         print(f"\nLearning completed! Ending accuracy: {accuracy(y_pred, y)}%")
@@ -157,4 +157,3 @@ class Network:
 
         pred = self.__forward_feed(x)
         print(f"Testing accuracy: {accuracy(pred, y)}%")
-
