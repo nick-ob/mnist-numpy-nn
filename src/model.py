@@ -7,6 +7,7 @@ Usage example:
     y_train = np.array([[1]])
     network.train(x_train, 0.01, y_train)
 """
+import os
 import numpy as np
 from src.loss import CCE, accuracy
 from src.layer import Layer
@@ -18,6 +19,7 @@ class Network:
     Pieces together the individual parts (layers, activations, loss) to get a running network.
 
     Attributes:
+        __arch: The architecture of the network, meaning the layers and their node amounts.
         __layers: The layers of the network, including activation layers.
     """
     def __init__(self, *nodes: tuple[int]) -> None:
@@ -26,6 +28,7 @@ class Network:
         Args:
             nodes: A tuple of node counts. Each node count represents the amount of nodes of one layer.
         """
+        self.__arch = nodes
         self.__layers = self.__init_layers(nodes)
 
     def __init_layers(self, nodes: tuple[int]) -> list:
@@ -161,3 +164,28 @@ class Network:
         pred = self.__forward_feed(x)
         print(f"Testing accuracy: {accuracy(pred, y)}%")
         return (pred, y, accuracy(pred, y))
+
+    def save(self, name: str) -> None:
+        """Save all of the network weights and biases.
+
+        Args:
+            name: The name under which it should be saved.
+        """
+        # folder of this file
+        src_dir = os.path.dirname(os.path.abspath(__file__))
+        # go back one step (into the project root), then into the data folder
+        root_dir = os.path.dirname(src_dir)
+        save_dir = os.path.join(root_dir, "data", name)
+
+        params: dict[str, np.ndarray] = {}
+
+        # iterate all Layer classes
+        i = 0
+        for layer in self.__layers[::2]:
+            weights, biases = layer.get_params()
+            params[f"w_{i}"] = weights
+            params[f"b_{i}"] = biases
+            i += 2
+
+        # save architecture and all parameters
+        np.savez(save_dir, arch=self.__arch, **params)
