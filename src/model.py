@@ -131,7 +131,21 @@ class Network:
             filled = int(bar_len * i / its)
             progress_bar = "#" * filled + " " * (bar_len - filled)
 
-            print(f"\r[{progress_bar}] {i}/{its} | train: {l.accuracy(y_pred, y_b)}%", end="", flush=True)
+            print(f"\r[{progress_bar}] {i}/{its} | Batch accuracy: {l.accuracy(y_pred, y_b)}%", end="", flush=True)
 
         y_pred = self.forward_feed(x)
         print(f"\nLearning completed! Ending accuracy: {l.accuracy(y_pred, y)}%")
+
+    def test(self, data: tuple[np.ndarray, np.ndarray]) -> None:
+        """Test the network with the provided testing data.
+
+        Args:
+            data: The input and labels of the testing data.
+        """
+        x, y = data
+
+        l = Loss()
+
+        pred = self.forward_feed(x)
+        print(f"Testing accuracy: {l.accuracy(pred, y)}%")
+

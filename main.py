@@ -27,8 +27,10 @@ from src.loss import Loss
 
 # %%
 (x_train, y_train), (x_test, y_test) = load_mnist()
+print("MNIST data loaded:")
 print(f"Training shapes: {x_train.shape} & {y_train.shape}")
 print(f"Testing shapes: {x_test.shape} & {y_test.shape}")
+print()
 
 # %% [markdown]
 # ## Initialise the network
@@ -41,12 +43,10 @@ network = Network(x_train.shape[1], 64, 32, y_train.shape[1])
 
 # %%
 network.train((x_train, y_train), 0.1, 5000, batch_size=512)
+print()
 
 # %% [markdown]
 # ## Testing the network
 
 # %%
-l = Loss()
-test_pred = network.forward_feed(x_test)
-print(f"Testing accuracy: {l.accuracy(test_pred, y_test)}%")
-
+network.test((x_test, y_test))
