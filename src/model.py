@@ -147,13 +147,17 @@ class Network:
         print(f"\nLearning completed! Ending accuracy: {accuracy(y_pred, y)}%")
         return history
 
-    def test(self, data: tuple[np.ndarray, np.ndarray]) -> None:
+    def test(self, data: tuple[np.ndarray, np.ndarray]) -> tuple[np.ndarray, np.ndarray, float]:
         """Test the network with the provided testing data.
 
         Args:
             data: The input and labels of the testing data.
+
+        Returns:
+            tuple[np.ndarray, np.ndarray, float]: Predicted labels, actual labels & accuracy.
         """
         x, y = data
 
         pred = self.__forward_feed(x)
         print(f"Testing accuracy: {accuracy(pred, y)}%")
+        return (pred, y, accuracy(pred, y))

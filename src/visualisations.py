@@ -4,6 +4,7 @@ Usage Example:
     save_costs(cost_history)
 """
 import os
+import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 
@@ -79,6 +80,36 @@ def save_accuracy(acc_history: list) -> None:
     plt.xlabel("Epochs")
     plt.ylabel("Cost")
     plt.legend()
+    plt.tight_layout()
+
+    plt.savefig(result_dir, dpi=200)
+
+def save_confusion_matrix(pred: np.ndarray, act: np.ndarray) -> None:
+    """Save the confusion matrix using predicted and actual labels.
+
+    Args:
+        pred: The predicted labels.
+        act: The actual labels.
+    """
+    result_dir = os.path.join(ROOT_DIR, "results", "confusion_matrix.png")
+
+    # get indices
+    pred_indices = np.argmax(pred, axis=1) # shape (batches,)
+    true_indices = np.argmax(act, axis=1) # shape (batches,)
+
+    # create empty confusion matrix & then add at the indices
+    cm = np.zeros((10, 10), dtype=int)
+    for pred, true in zip(pred_indices, true_indices):
+        cm[pred][true] += 1
+
+    sns.set_theme(style="whitegrid", context="notebook")
+    plt.figure(figsize=(9, 6))
+
+    sns.heatmap(data=cm, annot=True, fmt="d", cmap="Purples")
+
+    plt.title("Confusion Matrix")
+    plt.xlabel("Actual Labels")
+    plt.ylabel("Predicted Labels")
     plt.tight_layout()
 
     plt.savefig(result_dir, dpi=200)
