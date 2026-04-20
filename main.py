@@ -36,13 +36,15 @@ print()
 # ## Initialise the network
 
 # %%
-network = Network(x_train.shape[1], 10, 10, y_train.shape[1])
-#network = Network.load("test")
+network = Network(x_train.shape[1], 64, 32, y_train.shape[1])
+# use this line instead to load a pretrained network
+# network, history = Network.load("readme")
+
 # %% [markdown]
 # ## Training the network
 
 # %%
-history = network.train((x_train, y_train), 0.1, 100, batch_size=512)
+history = network.train((x_train, y_train), 0.1, 5000, batch_size=512)
 print()
 
 # %% [markdown]
@@ -55,7 +57,7 @@ pred, act, acc = network.test((x_test, y_test))
 # ## Saving the model and its results
 
 # %%
-name: str = "misclass"
+name: str = "readme"
 network.save(name)
 save_cost(history["cost"], name)
 save_accuracy(history["accuracy"], acc, name)
