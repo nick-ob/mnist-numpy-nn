@@ -46,6 +46,7 @@ The core functionality is implemented, including:
 
 Currently improving:
 
+- Hyperparameter optimisation
 - Code cleanup and refactoring
 
 ## Tech Stack
