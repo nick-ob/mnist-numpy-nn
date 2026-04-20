@@ -31,10 +31,6 @@ class Network:
         self.__arch = nodes
         self.__layers = self.__init_layers(nodes)
 
-    def whoami(self) -> None:
-        print(self.__arch)
-        print(self.__layers)
-
     def __init_layers(self, nodes: tuple[int]) -> list:
         """Takes a tuple containing layer nodes and creates a list of actual layers.
 

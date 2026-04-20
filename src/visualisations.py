@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 SRC_DIR = os.path.dirname(os.path.abspath(__file__))
 # go back one step (into the project root), then into the data folder
 ROOT_DIR = os.path.dirname(SRC_DIR)
+RESULTS_DIR = os.path.join(ROOT_DIR, "results")
 
 def __smoothen(data: list) -> list:
     """Smoothens data.
@@ -32,14 +33,16 @@ def __smoothen(data: list) -> list:
     return smoothed
 
 
-def save_cost(cost_history: list) -> None:
+def save_cost(cost_history: list, name: str) -> None:
     """Save the cost over epochs as a plot.
 
     Args:
         cost_history: A list of costs.
+        name: The name of the folder the plot should be saved under.
     """
-    result_dir = os.path.join(ROOT_DIR, "results", "cost_over_epochs.png")
-
+    save_dir = os.path.join(RESULTS_DIR, name)
+    file_dir = os.path.join(save_dir, "cost_over_epochs.png")
+    os.makedirs(save_dir, exist_ok=True)
     # create smoothened data
     smooth: list = __smoothen(cost_history)
 
@@ -56,16 +59,18 @@ def save_cost(cost_history: list) -> None:
     plt.legend()
     plt.tight_layout()
 
-    plt.savefig(result_dir, dpi=200)
+    plt.savefig(file_dir, dpi=200)
 
-def save_accuracy(acc_history: list) -> None:
+def save_accuracy(acc_history: list, name: str) -> None:
     """Save the accuracy over epochs as a plot.
 
     Args:
         acc_history: A list of accuracies.
+        name: The name of the folder the plot should be saved under.
     """
-    result_dir = os.path.join(ROOT_DIR, "results", "accuracy_over_epochs.png")
-
+    save_dir = os.path.join(RESULTS_DIR, name)
+    file_dir = os.path.join(save_dir, "accuracy_over_epochs.png")
+    os.makedirs(save_dir, exist_ok=True)
     # create smoothened data
     smooth: list = __smoothen(acc_history)
 
@@ -82,16 +87,19 @@ def save_accuracy(acc_history: list) -> None:
     plt.legend()
     plt.tight_layout()
 
-    plt.savefig(result_dir, dpi=200)
+    plt.savefig(file_dir, dpi=200)
 
-def save_confusion_matrix(pred: np.ndarray, act: np.ndarray) -> None:
+def save_confusion_matrix(pred: np.ndarray, act: np.ndarray, name: str) -> None:
     """Save the confusion matrix using predicted and actual labels.
 
     Args:
         pred: The predicted labels.
         act: The actual labels.
+        name: The name of the folder the plot should be saved under.
     """
-    result_dir = os.path.join(ROOT_DIR, "results", "confusion_matrix.png")
+    save_dir = os.path.join(RESULTS_DIR, name)
+    file_dir = os.path.join(save_dir, "confusion_matrix.png")
+    os.makedirs(save_dir, exist_ok=True)
 
     # get indices
     pred_indices = np.argmax(pred, axis=1) # shape (batches,)
@@ -112,4 +120,4 @@ def save_confusion_matrix(pred: np.ndarray, act: np.ndarray) -> None:
     plt.ylabel("Predicted Labels")
     plt.tight_layout()
 
-    plt.savefig(result_dir, dpi=200)
+    plt.savefig(file_dir, dpi=200)
