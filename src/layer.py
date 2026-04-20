@@ -24,7 +24,7 @@ class Layer:
             out_nodes: the amount of nodes of this layer / that this layers passes to the next.
         """
         # initialise weights and biases
-        self.__w: np.ndarray = np.random.randn(in_nodes, out_nodes) * np.sqrt(2 / (in_nodes + out_nodes)) # shape (in_nodes, out_nodes)
+        self.__w: np.ndarray = np.random.randn(in_nodes, out_nodes) * np.sqrt(1 / (in_nodes + out_nodes)) # shape (in_nodes, out_nodes)
         self.__b: np.ndarray = np.zeros(out_nodes) # shape (out_nodes,)
 
         self.__x: np.ndarray = None
