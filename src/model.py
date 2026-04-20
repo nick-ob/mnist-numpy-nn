@@ -5,7 +5,7 @@ Usage example:
     network = Network(3, 2, 2)
     x_train = np.array([1, 0, 1])
     y_train = np.array([[1]])
-    network.train(x_train, 0.01, y_train)
+    network.train((x_train, y_train), 0.01, 100)
 """
 import os
 import numpy as np
@@ -21,6 +21,7 @@ class Network:
     Attributes:
         __arch: The architecture of the network, meaning the layers and their node amounts.
         __layers: The layers of the network, including activation layers.
+        __history: A variable to cache the history (the training output). Needed to save in the save function.
     """
     def __init__(self, *nodes: tuple[int]) -> None:
         """Initialises instances using node amounts.
@@ -28,8 +29,9 @@ class Network:
         Args:
             nodes: A tuple of node counts. Each node count represents the amount of nodes of one layer.
         """
-        self.__arch = nodes
+        self.__arch: tuple[int] = nodes
         self.__layers = self.__init_layers(nodes)
+        self.__history: dict[str, list] = {}
 
     def __init_layers(self, nodes: tuple[int]) -> list:
         """Takes a tuple containing layer nodes and creates a list of actual layers.
@@ -148,6 +150,9 @@ class Network:
 
         y_pred = self.__forward_feed(x)
         print(f"\nLearning completed! Ending accuracy: {accuracy(y_pred, y)}%")
+
+        # cache and return history
+        self.__history = history
         return history
 
     def test(self, data: tuple[np.ndarray, np.ndarray]) -> tuple[np.ndarray, np.ndarray, float]:
@@ -188,10 +193,10 @@ class Network:
             i += 2
 
         # save architecture and all parameters
-        np.savez(save_dir, arch=self.__arch, **params)
+        np.savez(save_dir, arch=self.__arch, cost_history=self.__history["cost"], acc_history=self.__history["accuracy"], **params)
 
     @classmethod
-    def load(cls, name: str) -> 'Network':
+    def load(cls, name: str) -> tuple['Network', dict[str, list]]:
         """Load network from a saved file stat.
 
         Args:
@@ -215,6 +220,8 @@ class Network:
         # restore architecture and parameters
         with np.load(saved_dir) as data:
             arch = data["arch"]
+            costs = data["cost_history"]
+            acc = data["acc_history"]
 
             params: dict[str, np.ndarray] = {}
 
@@ -231,4 +238,4 @@ class Network:
             layer.set_params(w, b)
             i += 2
 
-        return network
+        return (network, {"cost": costs, "accuracy": acc})
