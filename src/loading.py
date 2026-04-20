@@ -56,6 +56,7 @@ def load_mnist() -> tuple[tuple[np.ndarray, np.ndarray], tuple[np.ndarray, np.nd
     # go back one step (into the project root), then into the data folder
     root_dir = os.path.dirname(src_dir)
     mnist_dir = os.path.join(root_dir, "data", "mnist")
+    os.makedirs(mnist_dir, exist_ok=True)
 
     # make sure all raw files exist
     required_files = {
