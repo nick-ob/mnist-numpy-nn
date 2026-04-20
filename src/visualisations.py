@@ -1,7 +1,7 @@
 """File containing visualization of the networks success logic.
 
 Usage Example:
-    save_costs(cost_history)
+    save_costs(cost_history, "my save")
 """
 import os
 import numpy as np
@@ -124,3 +124,80 @@ def save_confusion_matrix(pred: np.ndarray, act: np.ndarray, name: str) -> None:
     plt.tight_layout()
 
     plt.savefig(file_dir, dpi=200)
+
+def save_classified(input: np.ndarray, pred: np.ndarray, act: np.ndarray, name: str) -> None:
+    """Save a collection correctly classified and misclassified images, showing the image & their predicted + actual labels.
+
+    Args:
+        input: The input data that the labels were predicted with.
+        pred: The predicted labels.
+        act: The actual labels.
+        name: The name of the folder the plot should be saved under.
+    """
+    pred_indices = np.argmax(pred, axis=1)
+    true_indices = np.argmax(act, axis=1)
+
+    misclassified_indices = np.where(pred_indices != true_indices)[0]
+    classified_indices = np.where(pred_indices == true_indices)[0]
+
+    save_dir = os.path.join(RESULTS_DIR, name)
+    os.makedirs(save_dir, exist_ok=True)
+
+    if len(misclassified_indices) != 0:
+        file_dir = os.path.join(save_dir, "misclassifications.png")
+
+        # pick random wrong classifications
+        selected_indices = np.random.choice(
+            misclassified_indices, 
+            size=min(8, len(misclassified_indices)), 
+            replace=False
+        )
+
+        # plot
+        plt.figure(figsize=(12, 6))
+        for i, idx in enumerate(selected_indices):
+            plt.subplot(2, 4, i + 1)
+
+            # reshape one-hot encoded data back to image format
+            image = input[idx].reshape(28, 28)
+            plt.imshow(image, cmap='gray')
+            plt.grid(None)
+            plt.xticks([])
+            plt.yticks([])
+
+            plt.title(f"Pred: {pred_indices[idx]} | True: {true_indices[idx]}")
+
+        plt.suptitle("Misclassified Examples")
+        plt.tight_layout()
+
+        plt.savefig(file_dir, dpi=200)
+
+    if len(classified_indices) != 0:
+        file_dir = os.path.join(save_dir, "correctly_classified.png")
+
+        # pick random correct classifications
+        selected_indices = np.random.choice(
+            classified_indices, 
+            size=min(8, len(classified_indices)), 
+            replace=False
+        )
+
+        # plot
+        plt.figure(figsize=(12, 6))
+        for i, idx in enumerate(selected_indices):
+            plt.subplot(2, 4, i + 1)
+
+            # reshape one-hot encoded data back to image format
+            image = input[idx].reshape(28, 28)
+            plt.imshow(image, cmap='gray')
+            plt.grid(None)
+            plt.xticks([])
+            plt.yticks([])
+
+            plt.title(f"Pred: {pred_indices[idx]} | True: {true_indices[idx]}")
+
+        plt.suptitle("Correclty Classified Examples")
+        plt.tight_layout()
+
+        plt.savefig(file_dir, dpi=200)
+
