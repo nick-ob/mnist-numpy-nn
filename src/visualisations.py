@@ -61,11 +61,12 @@ def save_cost(cost_history: list, name: str) -> None:
 
     plt.savefig(file_dir, dpi=200)
 
-def save_accuracy(acc_history: list, name: str) -> None:
+def save_accuracy(acc_history: list, acc_test: float, name: str) -> None:
     """Save the accuracy over epochs as a plot.
 
     Args:
         acc_history: A list of accuracies.
+        acc_test: The final testing accuracy.
         name: The name of the folder the plot should be saved under.
     """
     save_dir = os.path.join(RESULTS_DIR, name)
@@ -80,10 +81,12 @@ def save_accuracy(acc_history: list, name: str) -> None:
 
     sns.lineplot(data=acc_history, label="Raw", linewidth=1, alpha=0.9, color="purple")
     sns.lineplot(data=smooth, label="Smoothened", linewidth=1.5, color="black")
+    plt.axhline(y=acc_history[-1], label="Final training accuracy", color="lightblue", linestyle="--", linewidth=1.5)
+    plt.axhline(y=acc_test, label="Testing accuracy", color="pink", linestyle="--", linewidth=1.5)
 
     plt.title("Training Accuracy Over Epochs")
     plt.xlabel("Epochs")
-    plt.ylabel("Cost")
+    plt.ylabel("Accuracy")
     plt.legend()
     plt.tight_layout()
 

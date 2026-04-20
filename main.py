@@ -20,6 +20,7 @@ See also notebooks/main.ipynb for a jupyter notebook version.
 from src.loading import load_mnist
 from src.model import Network
 from src.visualisations import save_cost, save_accuracy, save_confusion_matrix
+from src.loss import accuracy
 
 # %% [markdown]
 # ## Load MNIST dataset
@@ -55,8 +56,8 @@ pred, act, acc = network.test((x_test, y_test))
 # ## Saving the model and its results
 
 # %%
-name: str = "readme"
+name: str = "test"
 network.save(name)
 save_cost(history["cost"], name)
-save_accuracy(history["accuracy"], name)
+save_accuracy(history["accuracy"], acc, name)
 save_confusion_matrix(pred, act, name)
