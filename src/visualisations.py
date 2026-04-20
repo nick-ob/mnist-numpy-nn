@@ -137,67 +137,51 @@ def save_classified(input: np.ndarray, pred: np.ndarray, act: np.ndarray, name: 
     pred_indices = np.argmax(pred, axis=1)
     true_indices = np.argmax(act, axis=1)
 
-    misclassified_indices = np.where(pred_indices != true_indices)[0]
-    classified_indices = np.where(pred_indices == true_indices)[0]
-
     save_dir = os.path.join(RESULTS_DIR, name)
     os.makedirs(save_dir, exist_ok=True)
 
+    def plot_samples(
+            input: np.ndarray, indices: np.ndarray, pred_indices: np.ndarray, true_indices: np.ndarray, title: str, file_path: str
+    ) -> None:
+        """Plot a set of classification examples.
+
+        Args:
+            input: The input data that the labels were predicted with.
+            indices: The indices of the images.
+            pred_indices: The indices of the predicted labels.
+            true_indices: The indices of the correct labels.
+            title: The plot title to use.
+            file_path: The path to save to.
+        """
+        selected_indices = np.random.choice(
+            indices,
+            size=min(8, len(indices)),
+            replace=False
+        )
+
+        plt.figure(figsize=(12, 6))
+
+        for i, idx in enumerate(selected_indices):
+            plt.subplot(2, 4, i + 1)
+
+            image = input[idx].reshape(28, 28)
+            plt.imshow(image, cmap='gray')
+            plt.xticks([])
+            plt.yticks([])
+
+            plt.title(f"Pred: {pred_indices[idx]} | True: {true_indices[idx]}")
+
+        plt.suptitle(title)
+        plt.tight_layout()
+        plt.savefig(file_path, dpi=200)
+        plt.close()
+
+    misclassified_indices = np.where(pred_indices != true_indices)[0]
     if len(misclassified_indices) != 0:
         file_dir = os.path.join(save_dir, "misclassifications.png")
+        plot_samples(input, misclassified_indices, pred_indices, true_indices, "Misclassified Examples", file_dir)
 
-        # pick random wrong classifications
-        selected_indices = np.random.choice(
-            misclassified_indices, 
-            size=min(8, len(misclassified_indices)), 
-            replace=False
-        )
-
-        # plot
-        plt.figure(figsize=(12, 6))
-        for i, idx in enumerate(selected_indices):
-            plt.subplot(2, 4, i + 1)
-
-            # reshape one-hot encoded data back to image format
-            image = input[idx].reshape(28, 28)
-            plt.imshow(image, cmap='gray')
-            plt.grid(None)
-            plt.xticks([])
-            plt.yticks([])
-
-            plt.title(f"Pred: {pred_indices[idx]} | True: {true_indices[idx]}")
-
-        plt.suptitle("Misclassified Examples")
-        plt.tight_layout()
-
-        plt.savefig(file_dir, dpi=200)
-
+    classified_indices = np.where(pred_indices == true_indices)[0]
     if len(classified_indices) != 0:
         file_dir = os.path.join(save_dir, "correctly_classified.png")
-
-        # pick random correct classifications
-        selected_indices = np.random.choice(
-            classified_indices, 
-            size=min(8, len(classified_indices)), 
-            replace=False
-        )
-
-        # plot
-        plt.figure(figsize=(12, 6))
-        for i, idx in enumerate(selected_indices):
-            plt.subplot(2, 4, i + 1)
-
-            # reshape one-hot encoded data back to image format
-            image = input[idx].reshape(28, 28)
-            plt.imshow(image, cmap='gray')
-            plt.grid(None)
-            plt.xticks([])
-            plt.yticks([])
-
-            plt.title(f"Pred: {pred_indices[idx]} | True: {true_indices[idx]}")
-
-        plt.suptitle("Correclty Classified Examples")
-        plt.tight_layout()
-
-        plt.savefig(file_dir, dpi=200)
-
+        plot_samples(input, classified_indices, pred_indices, true_indices, "Correctly Classified Examples", file_dir)
