@@ -42,10 +42,10 @@ The core functionality is implemented, including:
 - Neural network training
 - MNIST data pipeline
 - Weight saving and loading
+- Visualization and result analysis
 
 Currently improving:
 
-- Visualization and result analysis
 - Code cleanup and refactoring
 
 ## Tech Stack
