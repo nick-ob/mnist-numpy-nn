@@ -11,7 +11,7 @@ import os
 import numpy as np
 from src.loss import CCE, accuracy
 from src.layer import Layer
-from src.activations import Sigmoid, Softmax
+from src.activations import ReLu, Sigmoid, Softmax
 
 class Network:
     """A class representing the actual network.
@@ -50,7 +50,7 @@ class Network:
             out_nodes = nodes[i + 1]
 
             layers.append(Layer(in_nodes, out_nodes))
-            layers.append(Sigmoid())
+            layers.append(ReLu())
 
         layers[-1] = Softmax()
         return layers
