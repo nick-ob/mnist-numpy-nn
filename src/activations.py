@@ -2,9 +2,9 @@
 
 Usage example:
 
-    sigmoid = Sigmoid(3, 1)
+    sigmoid = Sigmoid()
     input = np.array([1, 0, 1])
-    output = layer.forward(input)
+    output = sigmoid.forward(input)
 """
 import numpy as np
 
