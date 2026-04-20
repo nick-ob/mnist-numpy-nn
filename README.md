@@ -38,11 +38,13 @@ More visualizations and raw outputs are available in the [`results/`](results/) 
 ## Project Status
 
 The core functionality is implemented, including:
+
 - Neural network training
 - MNIST data pipeline
 - Weight saving and loading
 
 Currently improving:
+
 - Visualization and result analysis
 - Code cleanup and refactoring
 
