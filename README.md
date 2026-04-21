@@ -11,9 +11,9 @@ without relying on any machine learning frameworks.
 
 ## Results
 
-### Accuracy over Epochs
+### Accuracy over Iterations
 
-![Accuracy](results/readme/accuracy_over_epochs.png)
+![Accuracy](results/readme/accuracy_over_iterations.png)
 
 The model’s accuracy improves steadily during training and begins to plateau,
 indicating stable learning.
@@ -28,7 +28,7 @@ patterns well, while still struggling in some cases.
 
 ### Training Loss
 
-![Training Loss](results/readme/cost_over_epochs.png)
+![Training Loss](results/readme/cost_over_iterations.png)
 
 The training loss decreases consistently over time, confirming that the model
 is effectively learning through gradient-based optimization.

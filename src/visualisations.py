@@ -34,14 +34,14 @@ def __smoothen(data: list) -> list:
 
 
 def save_cost(cost_history: list, name: str) -> None:
-    """Save the cost over epochs as a plot.
+    """Save the cost over iterations as a plot.
 
     Args:
         cost_history: A list of costs.
         name: The name of the folder the plot should be saved under.
     """
     save_dir = os.path.join(RESULTS_DIR, name)
-    file_dir = os.path.join(save_dir, "cost_over_epochs.png")
+    file_dir = os.path.join(save_dir, "cost_over_iterations.png")
     os.makedirs(save_dir, exist_ok=True)
     # create smoothened data
     smooth: list = __smoothen(cost_history)
@@ -53,8 +53,8 @@ def save_cost(cost_history: list, name: str) -> None:
     sns.lineplot(data=cost_history, label="Raw", linewidth=1, alpha=0.9, color="purple")
     sns.lineplot(data=smooth, label="Smoothened", linewidth=1.5, color="black")
 
-    plt.title("Training Cost Over Epochs")
-    plt.xlabel("Epochs")
+    plt.title("Training Cost Over Iterations")
+    plt.xlabel("Iterations")
     plt.ylabel("Cost")
     plt.legend()
     plt.tight_layout()
@@ -62,7 +62,7 @@ def save_cost(cost_history: list, name: str) -> None:
     plt.savefig(file_dir, dpi=200)
 
 def save_accuracy(acc_history: list, acc_test: float, name: str) -> None:
-    """Save the accuracy over epochs as a plot.
+    """Save the accuracy over iterations as a plot.
 
     Args:
         acc_history: A list of accuracies.
@@ -70,7 +70,7 @@ def save_accuracy(acc_history: list, acc_test: float, name: str) -> None:
         name: The name of the folder the plot should be saved under.
     """
     save_dir = os.path.join(RESULTS_DIR, name)
-    file_dir = os.path.join(save_dir, "accuracy_over_epochs.png")
+    file_dir = os.path.join(save_dir, "accuracy_over_iterations.png")
     os.makedirs(save_dir, exist_ok=True)
     # create smoothened data
     smooth: list = __smoothen(acc_history)
@@ -84,8 +84,8 @@ def save_accuracy(acc_history: list, acc_test: float, name: str) -> None:
     plt.axhline(y=acc_history[-1], label="Final training accuracy", color="lightblue", linestyle="--", linewidth=1.5)
     plt.axhline(y=acc_test, label="Testing accuracy", color="pink", linestyle="--", linewidth=1.5)
 
-    plt.title("Training Accuracy Over Epochs")
-    plt.xlabel("Epochs")
+    plt.title("Training Accuracy Over Iterations")
+    plt.xlabel("Iterations")
     plt.ylabel("Accuracy")
     plt.legend()
     plt.tight_layout()
