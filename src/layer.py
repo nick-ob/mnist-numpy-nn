@@ -56,16 +56,17 @@ class Layer:
         # derivative of the loss w.r.t. the weights
         grad = self.__x.T @ delta # shape (in_nodes, out_nodes) - must be the same as weights
 
-        # adjust the weights using the gradient
-        self.__w = self.__w - learning_rate * grad
-
-        # adjust the biases using delta (the derivative of the loss w.r.t. the biases = 1, so we simply use the delta as is)
+        # adjust the biases using delta from the previous layer (the derivative of the loss w.r.t. the biases = 1, so we simply use the delta as is)
         # since delta is of shape (batches, out_nodes), we sum across the batches and recieve the shape
         # of (out_nodes,) - must be the same as biases
         self.__b = self.__b - learning_rate * np.sum(delta, axis=0)
 
+        # compute new delta before updating weights
         # derivative of the loss w.r.t. the ouput of the previous layer
         delta = delta @ self.__w.T # shape (batches, in_nodes) - for the previous layer
+
+        # adjust the weights using the gradient
+        self.__w = self.__w - learning_rate * grad
 
         return delta
 
