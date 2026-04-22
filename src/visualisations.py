@@ -81,8 +81,14 @@ def save_accuracy(acc_history: list, acc_test: float, name: str) -> None:
 
     sns.lineplot(data=acc_history, label="Raw", linewidth=1, alpha=0.9, color="purple")
     sns.lineplot(data=smooth, label="Smoothened", linewidth=1.5, color="black")
-    plt.axhline(y=acc_history[-1], label="Final training accuracy", color="lightblue", linestyle="--", linewidth=1.5)
-    plt.axhline(y=acc_test, label="Testing accuracy", color="pink", linestyle="--", linewidth=1.5)
+    plt.axhline(
+            y=acc_history[-1], label="Final training accuracy",
+            color="lightblue", linestyle="--", linewidth=1.5
+    )
+    plt.axhline(
+            y=acc_test, label="Testing accuracy",
+            color="pink", linestyle="--", linewidth=1.5
+    )
 
     plt.title("Training Accuracy Over Iterations")
     plt.xlabel("Iterations")
@@ -110,8 +116,8 @@ def save_confusion_matrix(pred: np.ndarray, act: np.ndarray, name: str) -> None:
 
     # create empty confusion matrix & then add at the indices
     cm = np.zeros((10, 10), dtype=int)
-    for pred, true in zip(pred_indices, true_indices):
-        cm[pred][true] += 1
+    for predicted, true in zip(pred_indices, true_indices):
+        cm[predicted][true] += 1
 
     sns.set_theme(style="whitegrid", context="notebook")
     plt.figure(figsize=(9, 6))
@@ -125,11 +131,12 @@ def save_confusion_matrix(pred: np.ndarray, act: np.ndarray, name: str) -> None:
 
     plt.savefig(file_dir, dpi=200)
 
-def save_classified(input: np.ndarray, pred: np.ndarray, act: np.ndarray, name: str) -> None:
-    """Save a collection correctly classified and misclassified images, showing the image & their predicted + actual labels.
+def save_classified(x: np.ndarray, pred: np.ndarray, act: np.ndarray, name: str) -> None:
+    """Save a collection of correctly classified and misclassified images
+    .Showing the image and their predicted + actual labels.
 
     Args:
-        input: The input data that the labels were predicted with.
+        x: The input data that the labels were predicted with.
         pred: The predicted labels.
         act: The actual labels.
         name: The name of the folder the plot should be saved under.
@@ -141,12 +148,14 @@ def save_classified(input: np.ndarray, pred: np.ndarray, act: np.ndarray, name: 
     os.makedirs(save_dir, exist_ok=True)
 
     def plot_samples(
-            input: np.ndarray, indices: np.ndarray, pred_indices: np.ndarray, true_indices: np.ndarray, title: str, file_path: str
+            x: np.ndarray,
+            indices: np.ndarray, pred_indices: np.ndarray, true_indices: np.ndarray,
+            title: str, file_path: str
     ) -> None:
         """Plot a set of classification examples.
 
         Args:
-            input: The input data that the labels were predicted with.
+            x: The input data that the labels were predicted with.
             indices: The indices of the images.
             pred_indices: The indices of the predicted labels.
             true_indices: The indices of the correct labels.
@@ -164,7 +173,7 @@ def save_classified(input: np.ndarray, pred: np.ndarray, act: np.ndarray, name: 
         for i, idx in enumerate(selected_indices):
             plt.subplot(2, 4, i + 1)
 
-            image = input[idx].reshape(28, 28)
+            image = x[idx].reshape(28, 28)
             plt.imshow(image, cmap='gray')
             plt.xticks([])
             plt.yticks([])
@@ -179,9 +188,15 @@ def save_classified(input: np.ndarray, pred: np.ndarray, act: np.ndarray, name: 
     misclassified_indices = np.where(pred_indices != true_indices)[0]
     if len(misclassified_indices) != 0:
         file_dir = os.path.join(save_dir, "misclassifications.png")
-        plot_samples(input, misclassified_indices, pred_indices, true_indices, "Misclassified Examples", file_dir)
+        plot_samples(x,
+                     misclassified_indices, pred_indices, true_indices,
+                     "Misclassified Examples", file_dir
+        )
 
     classified_indices = np.where(pred_indices == true_indices)[0]
     if len(classified_indices) != 0:
         file_dir = os.path.join(save_dir, "correctly_classified.png")
-        plot_samples(input, classified_indices, pred_indices, true_indices, "Correctly Classified Examples", file_dir)
+        plot_samples(x,
+                     classified_indices, pred_indices, true_indices,
+                     "Correctly Classified Examples", file_dir
+        )
