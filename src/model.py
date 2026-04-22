@@ -11,7 +11,7 @@ import os
 import numpy as np
 from src.loss import CCE, accuracy
 from src.layer import Layer
-from src.activations import ReLu, Sigmoid, Softmax
+from src.activations import ReLu, Softmax
 
 class Network:
     """A class representing the actual network.
@@ -21,13 +21,13 @@ class Network:
     Attributes:
         __arch: The architecture of the network, meaning the layers and their node amounts.
         __layers: The layers of the network, including activation layers.
-        __history: A variable to cache the history (the training output). Needed to save in the save function.
+        __history: A variable to cache the training history. Needed to save in the save function.
     """
-    def __init__(self, *nodes: tuple[int]) -> None:
+    def __init__(self, *nodes: int) -> None:
         """Initialises instances using node amounts.
 
         Args:
-            nodes: A tuple of node counts. Each node count represents the amount of nodes of one layer.
+            nodes: All node counts. Each node count represents the amount of nodes of one layer.
         """
         self.__arch: tuple[int] = nodes
         self.__layers = self.__init_layers(nodes)
@@ -44,7 +44,8 @@ class Network:
         """
         layers: list = []
 
-        # iterate every node count except the last (node count represent the in_nodes in the Layer class)
+        # iterate every node count except the last
+        # (node count represent the in_nodes in the Layer class)
         for i, in_nodes in enumerate(nodes[:-1]):
             # get node count of next layer (the out nodes for the current layer)
             out_nodes = nodes[i + 1]
@@ -64,7 +65,8 @@ class Network:
         Returns:
             np.ndarray: The output of the last layer, i.e. the predicted labels.
         """
-        # feed values through all of the layers, with each layer getting the output of the previous layer as its input
+        # feed values through all of the layers,
+        # with each layer getting the output of the previous layer as its input
         for layer in self.__layers:
             x = layer.forward(x)
 
@@ -82,7 +84,9 @@ class Network:
             delta = layer.backward(delta, learning_rate)
             # since there is no use for delta, it is simply discarded
 
-    def __get_batch(self, x: np.ndarray, y: np.ndarray, batch_size: int | None) -> tuple[np.ndarray, np.ndarray]:
+    def __get_batch(
+            self, x: np.ndarray, y: np.ndarray, batch_size: int | None
+    ) -> tuple[np.ndarray, np.ndarray]:
         """Get the batch to train on.
 
         Args:
@@ -98,7 +102,8 @@ class Network:
             return (x, y)
 
         # if batch size is given, shuffle data row-wise
-        # the input and output is first added together, then shuffled, to make sure the input and the output still align
+        # the input and output is first added together, then shuffled,
+        # to make sure the input and the output still align after shuffling
         z = np.concatenate((x, y), axis=1)
         np.random.shuffle(z)
 
@@ -108,14 +113,18 @@ class Network:
         # only use first n (batch size) rows of shuffled data
         return (result[0][:batch_size], result[1][:batch_size])
 
-    def train(self, data: tuple[np.ndarray, np.ndarray], learning_rate: float, its: int, batch_size: int = None) -> dict[str, list]:
+    def train(
+            self, data: tuple[np.ndarray, np.ndarray],
+            learning_rate: float, its: int, batch_size: int = None
+    ) -> dict[str, list]:
         """Train the network on provided training data.
 
         Args:
             data: The input and labels for the training data.
             learning_rate: The learning rate used for gradient descent.
             its: The amount of training iterations.
-            batch_size: The size of the "mini" batches used to train. Defaults to None. If None, then the full dataset is used.
+            batch_size: The size of the batches used to train. Defaults to None.
+            If None, then the full dataset is used.
 
         Returns:
             dict[str, list]: A history of the cost and accuracy of the model.
@@ -148,6 +157,7 @@ class Network:
 
             print(f"\r[{progress_bar}] {i}/{its} | Batch accuracy: {acc}%", end="", flush=True)
 
+        # compute and display accuracy with the full data
         y_pred = self.__forward_feed(x)
         print(f"\nLearning completed! Ending accuracy: {accuracy(y_pred, y)}%")
 
@@ -193,7 +203,12 @@ class Network:
             i += 2
 
         # save architecture and all parameters
-        np.savez(save_dir, arch=self.__arch, cost_history=self.__history["cost"], acc_history=self.__history["accuracy"], **params)
+        np.savez(
+                save_dir, allow_pickle=False,
+                arch=self.__arch,
+                cost_history=self.__history["cost"], acc_history=self.__history["accuracy"],
+                **params
+        )
 
     @classmethod
     def load(cls, name: str) -> tuple['Network', dict[str, list]]:
