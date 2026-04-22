@@ -11,7 +11,8 @@ import numpy as np
 class ReLu:
     """A class representing the relu activation in a neural network.
 
-    In this code implementation, activation functions are logically implemented as a seperate layer in the network.
+    In this code implementation, activation functions are logically implemented
+    as a seperate layer in the network.
     Thus, activation functions have the same public functions as the Layer class.
 
     Attributes:
@@ -101,9 +102,6 @@ class Sigmoid:
 
 class Softmax:
     """A class representing the softmax activation in a neural network.
-
-    In this code implementation, activation functions are logically implemented as a seperate layer in the network.
-    Thus, activation functions have the same public functions as the Layer class.
     """
     def forward(self, x: np.ndarray) -> np.ndarray:
         """Compute softmax and forward it to the next layer.
@@ -114,7 +112,8 @@ class Softmax:
         Returns:
             np.ndarray: The input for the upcoming Layer.
         """
-        # the input is normalised (subtract each value by the maximum value) to avoid numerical overflow in the softmax function
+        # the input is normalised (subtract each value by the maximum value)
+        # to avoid numerical overflow in the softmax function
         # this works since the softmax function is shift-invariant
         x = x - np.max(x, axis=1, keepdims=True) # shape (batches, nodes)
 
@@ -124,9 +123,9 @@ class Softmax:
     def backward(self, delta: np.ndarray, _) -> np.ndarray:
         """Pass on delta to the previous Layer.
 
-        Since our softmax layer is always the last layer in our network, its delta is the derivative of the loss
-        w.r.t. the output of the network, which is calculated in the Loss class. This is done so that this class can
-        be called in the same way as the Layer class.
+        Since our softmax layer is always the last layer in our network, its delta is the
+        derivative of the loss w.r.t. the output of the network, which is calculated in the Loss
+        class. This is done so that this class can be called in the same way as the Layer class.
 
         Args:
             delta: The derivative of the loss w.r.t. the output of this layer.
