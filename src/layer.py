@@ -24,8 +24,10 @@ class Layer:
             out_nodes: the amount of nodes of this layer / that this layers passes to the next.
         """
         # initialise weights and biases
-        self.__w: np.ndarray = np.random.randn(in_nodes, out_nodes) * np.sqrt(2 / in_nodes) # shape (in_nodes, out_nodes)
-        self.__b: np.ndarray = np.zeros(out_nodes) # shape (out_nodes,)
+        # shape (in_nodes, out_nodes)
+        self.__w: np.ndarray = np.random.randn(in_nodes, out_nodes) * np.sqrt(2 / in_nodes)
+        # shape (out_nodes,)
+        self.__b: np.ndarray = np.zeros(out_nodes)
 
         self.__x: np.ndarray = None
 
@@ -44,7 +46,9 @@ class Layer:
         return x @ self.__w + self.__b # shape (batches, out_nodes)
 
     def backward(self, delta: np.ndarray, learning_rate: float) -> np.ndarray:
-        """Compute the gradient for this layer, nudge own weights and biases and give new delta to the previous Layer.
+        """Backward pass to the previous layer.
+        Compute the gradient for this layer, nudge own weights and biases
+        and give new delta to the previous layer.
 
         Args:
             delta: The derivative of the loss w.r.t. the output of this layer.
@@ -56,9 +60,10 @@ class Layer:
         # derivative of the loss w.r.t. the weights
         grad = self.__x.T @ delta # shape (in_nodes, out_nodes) - must be the same as weights
 
-        # adjust the biases using delta from the previous layer (the derivative of the loss w.r.t. the biases = 1, so we simply use the delta as is)
-        # since delta is of shape (batches, out_nodes), we sum across the batches and recieve the shape
-        # of (out_nodes,) - must be the same as biases
+        # adjust the biases using delta from the previous layer
+        # (the derivative of the loss w.r.t. the biases = 1, so we simply use the delta as is)
+        # since delta is of shape (batches, out_nodes), we sum across the batches and recieve
+        # the shape of (out_nodes,) - must be the same as biases
         self.__b = self.__b - learning_rate * np.sum(delta, axis=0)
 
         # compute new delta before updating weights
