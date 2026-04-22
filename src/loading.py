@@ -12,7 +12,8 @@ def load_mnist() -> tuple[tuple[np.ndarray, np.ndarray], tuple[np.ndarray, np.nd
     """Load the MNIST dataset from raw .gz files.
 
     Returns:
-        tuple[tuple[np.ndarray, np.ndarray]]: Contains training and testing data, which each contain images and labels.
+        tuple[tuple[np.ndarray, np.ndarray]]: Contains training and testing data,
+        which each contain images and labels.
     """
 
     def load_images(path: str) -> np.ndarray:
