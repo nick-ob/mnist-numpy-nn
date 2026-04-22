@@ -1,4 +1,5 @@
-"""File containing the loss logic, represented as a class, as well as metrics represented as functions.
+"""File containing the loss logic.
+Represented as a class, as well as metrics represented as functions.
 
 Usage example:
 
@@ -26,12 +27,14 @@ class CCE:
         # clip data to avoid any logs of 0
         y_pred = np.clip(y_pred, 1e-15, 1 - 1e-15) # shape (batches, categories)
 
-        cost: np.ndarray = np.sum(y_act * np.log(y_pred), axis=1) # shape (batches,), so 1 value for each batch
+        # shape (batches,), so 1 value for each batch
+        cost: np.ndarray = np.sum(y_act * np.log(y_pred), axis=1)
 
         return -np.mean(cost) # take the mean to be independant of the batch size
 
     def delta(self, y_pred: np.ndarray, y_act: np.ndarray) -> np.ndarray:
-        """Compute the initial delta for backpropagation (the derivative of the loss w.r.t. the final output).
+        """Compute the initial delta for backpropagation.
+        (the derivative of the loss w.r.t. the final output).
 
         Args:
             y_pred: The predicted labels.
