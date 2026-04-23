@@ -50,7 +50,7 @@ def save_cost(cost_history: list, name: str) -> None:
     sns.set_theme(style="whitegrid", context="notebook")
     plt.figure(figsize=(9, 5))
 
-    sns.lineplot(data=cost_history, label="Raw", linewidth=1, alpha=0.9, color="purple")
+    sns.lineplot(data=cost_history, label="Raw", linewidth=1, alpha=0.7, color="purple")
     sns.lineplot(data=smooth, label="Smoothened", linewidth=1.5, color="black")
 
     plt.title("Training Cost Over Iterations")
@@ -79,7 +79,7 @@ def save_accuracy(acc_history: list, acc_test: float, name: str) -> None:
     sns.set_theme(style="whitegrid", context="notebook")
     plt.figure(figsize=(9, 5))
 
-    sns.lineplot(data=acc_history, label="Raw", linewidth=1, alpha=0.9, color="purple")
+    sns.lineplot(data=acc_history, label="Raw", linewidth=1, alpha=0.7, color="purple")
     sns.lineplot(data=smooth, label="Smoothened", linewidth=1.5, color="black")
     plt.axhline(
             y=acc_history[-1], label=f"Final training accuracy ({acc_history[-1]}%)",

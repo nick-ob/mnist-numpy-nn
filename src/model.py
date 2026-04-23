@@ -161,7 +161,7 @@ class Network:
                 filled = int(bar_len * idx / total_batches)
                 progress_bar = "#" * filled + " " * (bar_len - filled)
 
-                print(f"\rEpoch: ({e}/{epochs}) | [{progress_bar}] {idx}/{total_batches} - Batch accuracy: {acc}% ", end="", flush=True)
+                print(f"\rEpoch: {e}/{epochs} | [{progress_bar}] Batch: {idx}/{total_batches} - Batch accuracy: {acc}% ", end="", flush=True)
 
         # compute and display accuracy with the full data
         y_pred = self.__forward_feed(x)
