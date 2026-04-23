@@ -82,11 +82,11 @@ def save_accuracy(acc_history: list, acc_test: float, name: str) -> None:
     sns.lineplot(data=acc_history, label="Raw", linewidth=1, alpha=0.9, color="purple")
     sns.lineplot(data=smooth, label="Smoothened", linewidth=1.5, color="black")
     plt.axhline(
-            y=acc_history[-1], label=f"Final training accuracy ({acc_history[-1]})",
+            y=acc_history[-1], label=f"Final training accuracy ({acc_history[-1]}%)",
             color="lightblue", linestyle="--", linewidth=1.5
     )
     plt.axhline(
-            y=acc_test, label=f"Testing accuracy ({acc_test})",
+            y=acc_test, label=f"Testing accuracy ({acc_test})%",
             color="pink", linestyle="--", linewidth=1.5
     )
 
