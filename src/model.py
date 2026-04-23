@@ -84,24 +84,19 @@ class Network:
             delta = layer.backward(delta, learning_rate)
             # since there is no use for delta, it is simply discarded
 
-    def __get_batch(
-            self, x: np.ndarray, y: np.ndarray, batch_size: int | None
+    def __shuffle_data(
+            self, x: np.ndarray, y: np.ndarray
     ) -> tuple[np.ndarray, np.ndarray]:
-        """Get the batch to train on.
+        """Shuffle data.
 
         Args:
             x: The input of the training data.
             y: The labels of the training data.
-            batch_size: The size of the batch. Defualts to None. Full data is used if None.
 
         Returns:
-            tuple: The input and output for the batch.
+            tuple: The input and output of the shuffled data.
         """
-        # return original data if no batch size is given or larger than the amount of batches
-        if batch_size is None or batch_size >= x.shape[0]:
-            return (x, y)
-
-        # if batch size is given, shuffle data row-wise
+        # shuffle data row-wise
         # the input and output is first added together, then shuffled,
         # to make sure the input and the output still align after shuffling
         z = np.concatenate((x, y), axis=1)
@@ -110,19 +105,18 @@ class Network:
         # split shuffled data into input and output again
         result = np.split(z, [x.shape[1], z.shape[1]], axis=1)
 
-        # only use first n (batch size) rows of shuffled data
-        return (result[0][:batch_size], result[1][:batch_size])
+        return (result[0], result[1])
 
     def train(
             self, data: tuple[np.ndarray, np.ndarray],
-            learning_rate: float, its: int, batch_size: int = None
+            learning_rate: float, epochs: int, batch_size: int = None
     ) -> dict[str, list]:
         """Train the network on provided training data.
 
         Args:
             data: The input and labels for the training data.
             learning_rate: The learning rate used for gradient descent.
-            its: The amount of training iterations.
+            epochs: The amount of training epochs.
             batch_size: The size of the batches used to train. Defaults to None.
             If None, then the full dataset is used.
 
@@ -130,32 +124,44 @@ class Network:
             dict[str, list]: A history of the cost and accuracy of the model.
         """
         x, y = data
+        # use full data if no batch size is given
+        if batch_size is None:
+            batch_size = x.shape[0]
+
+        total_batches: int = x.shape[0] // batch_size
 
         cce = CCE()
         history: dict[str, list] = {"cost": [], "accuracy": []}
 
         print("Learning...")
         # training loop
-        for i in range(1, its + 1):
-            # batch input and output
-            x_b, y_b = self.__get_batch(x, y, batch_size)
+        for e in range(1, epochs + 1):
+            # shuffle input and output
+            x_shuffled, y_shuffled = self.__shuffle_data(x, y)
 
-            # forward feed and backpropagate through the network
-            y_pred = self.__forward_feed(x_b)
-            self.__backpropagate(cce.delta(y_pred, y_b), learning_rate)
+            # go through all batches for the data
+            i: int = 0
+            for idx, j in enumerate(range(batch_size, x.shape[0] + batch_size, batch_size)):
+                # get batch & prepare variables for the next
+                x_b, y_b = x_shuffled[i:j], y_shuffled[i:j]
+                i = j
 
-            # add stats to history
-            loss: float = cce.cost(y_pred, y_b)
-            acc: float = accuracy(y_pred, y_b)
-            history["cost"].append(loss)
-            history["accuracy"].append(acc)
+                # forward feed and backpropagate through the network
+                y_pred = self.__forward_feed(x_b)
+                self.__backpropagate(cce.delta(y_pred, y_b), learning_rate)
 
-            # training progress display
-            bar_len = 50
-            filled = int(bar_len * i / its)
-            progress_bar = "#" * filled + " " * (bar_len - filled)
+                # add stats to history
+                loss: float = cce.cost(y_pred, y_b)
+                acc: float = accuracy(y_pred, y_b)
+                history["cost"].append(loss)
+                history["accuracy"].append(acc)
 
-            print(f"\r[{progress_bar}] {i}/{its} | Batch accuracy: {acc}%", end="", flush=True)
+                # training progress display
+                bar_len = 50
+                filled = int(bar_len * idx / total_batches)
+                progress_bar = "#" * filled + " " * (bar_len - filled)
+
+                print(f"\rEpoch: ({e}/{epochs}) | [{progress_bar}] {idx}/{total_batches} - Batch accuracy: {acc}% ", end="", flush=True)
 
         # compute and display accuracy with the full data
         y_pred = self.__forward_feed(x)
