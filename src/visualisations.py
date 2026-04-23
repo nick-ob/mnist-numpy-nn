@@ -60,6 +60,7 @@ def save_cost(cost_history: list, name: str) -> None:
     plt.tight_layout()
 
     plt.savefig(file_dir, dpi=200)
+    plt.close()
 
 def save_accuracy(acc_history: list, acc_test: float, name: str) -> None:
     """Save the accuracy over iterations as a plot.
@@ -97,6 +98,7 @@ def save_accuracy(acc_history: list, acc_test: float, name: str) -> None:
     plt.tight_layout()
 
     plt.savefig(file_dir, dpi=200)
+    plt.close()
 
 def save_confusion_matrix(pred: np.ndarray, act: np.ndarray, name: str) -> None:
     """Save the confusion matrix using predicted and actual labels.
@@ -130,6 +132,7 @@ def save_confusion_matrix(pred: np.ndarray, act: np.ndarray, name: str) -> None:
     plt.tight_layout()
 
     plt.savefig(file_dir, dpi=200)
+    plt.close()
 
 def save_classified(x: np.ndarray, pred: np.ndarray, act: np.ndarray, name: str) -> None:
     """Save a collection of correctly classified and misclassified images
