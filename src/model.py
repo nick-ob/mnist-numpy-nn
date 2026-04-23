@@ -87,7 +87,7 @@ class Network:
     def __shuffle_data(
             self, x: np.ndarray, y: np.ndarray
     ) -> tuple[np.ndarray, np.ndarray]:
-        """Shuffle data.
+        """Shuffle x and y data row-wise so that they still align.
 
         Args:
             x: The input of the training data.
@@ -96,16 +96,11 @@ class Network:
         Returns:
             tuple: The input and output of the shuffled data.
         """
-        # shuffle data row-wise
-        # the input and output is first added together, then shuffled,
-        # to make sure the input and the output still align after shuffling
-        z = np.concatenate((x, y), axis=1)
-        np.random.shuffle(z)
+        # randomly shuffle indices
+        indices = np.random.permutation(x.shape[0])
 
-        # split shuffled data into input and output again
-        result = np.split(z, [x.shape[1], z.shape[1]], axis=1)
-
-        return (result[0], result[1])
+        # apply shuffled indices to data
+        return (x[indices], y[indices])
 
     def train(
             self, data: tuple[np.ndarray, np.ndarray],
