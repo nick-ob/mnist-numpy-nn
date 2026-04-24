@@ -1,16 +1,3 @@
-# ---
-# jupyter:
-#   jupytext:
-#     cell_metadata_filter: -all
-#     formats: notebooks//ipynb,py:percent
-#     text_representation:
-#       extension: .py
-#       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.19.1
-# ---
-
-# %%
 """This is the main entry point file.
 
 See also notebooks/main.ipynb for a jupyter notebook version.
