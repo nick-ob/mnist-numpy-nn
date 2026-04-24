@@ -31,8 +31,11 @@ def download(filename:str) -> None:
     if os.path.exists(out_path):
         print(f"{filename} already exists")
         return
+    try:
+        urllib.request.urlretrieve(url, out_path)
+    except Exception as e:
+        raise Exception(f"Failed to download {filename}: {e}")
 
-    urllib.request.urlretrieve(url, out_path)
     print(f"{filename} saved to {out_path}")
 
 def main() -> None:

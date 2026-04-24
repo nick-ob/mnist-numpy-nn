@@ -13,6 +13,7 @@ SRC_DIR = os.path.dirname(os.path.abspath(__file__))
 # go back one step (into the project root), then into the data folder
 ROOT_DIR = os.path.dirname(SRC_DIR)
 RESULTS_DIR = os.path.join(ROOT_DIR, "results")
+os.makedirs(RESULTS_DIR, exist_ok=True)
 
 def __smoothen(data: list) -> list:
     """Smoothens data.
@@ -58,6 +59,7 @@ def save_cost(cost_history: list, name: str) -> None:
     plt.ylabel("Cost")
     plt.legend()
     plt.tight_layout()
+    plt.xscale("log")
 
     plt.savefig(file_dir, dpi=200)
     plt.close()
@@ -96,6 +98,7 @@ def save_accuracy(acc_history: list, acc_test: float, name: str) -> None:
     plt.ylabel("Accuracy")
     plt.legend()
     plt.tight_layout()
+    plt.xscale("log")
 
     plt.savefig(file_dir, dpi=200)
     plt.close()
