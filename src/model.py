@@ -113,9 +113,27 @@ class Network:
         # apply shuffled indices to data
         return (x[indices], y[indices])
 
+    def __display_progress(self, idx: int, e: int, batches: int, epochs: int, acc: float) -> None:
+        """Display the progress of training.
+
+        Args:
+            idx: The current batch index.
+            e: The current epoch.
+            batches: The amount of batches.
+            epochs: The amount of epochs.
+            acc: The accuracy of the batch.
+        """
+        bar_len = 50
+        filled = int(bar_len * idx / batches)
+        progress_bar = "#" * filled + " " * (bar_len - filled)
+
+        print(f"""\rEpoch: {e}/{epochs} | 
+              [{progress_bar}] Batch: {idx}/{batches} - Batch accuracy: {acc}% """
+              , end="", flush=True)
+
     def train(
             self, data: tuple[np.ndarray, np.ndarray],
-            learning_rate: float, epochs: int, batch_size: int = None
+            learning_rate: float, epochs: int, batch_size: int | None = None
     ) -> dict[str, list]:
         """Train the network on provided training data.
 
@@ -130,6 +148,17 @@ class Network:
             dict[str, list]: A history of the cost and accuracy of the model.
         """
         x, y = data
+
+        # validate inputs
+        if learning_rate <= 0:
+            raise ValueError("learning_rate must be positive")
+        if type(epochs) is not int or epochs <= 0:
+            raise ValueError("epochs must be a positive integer")
+        if batch_size is not None and (type(batch_size) is not int or batch_size <= 0):
+            raise ValueError("batch_size must be a positive integer")
+        if x.shape[0] != y.shape[0]:
+            raise ValueError("x and y must have the same number of batches")
+
         # use full data if no batch size is given
         if batch_size is None:
             batch_size = x.shape[0]
@@ -156,18 +185,13 @@ class Network:
                 y_pred = self.__forward_feed(x_b)
                 self.__backpropagate(cce.delta(y_pred, y_b), learning_rate)
 
-                # add stats to history
+                # calculate stats
                 loss: float = cce.cost(y_pred, y_b)
                 acc: float = accuracy(y_pred, y_b)
                 history["cost"].append(loss)
                 history["accuracy"].append(acc)
 
-                # training progress display
-                bar_len = 50
-                filled = int(bar_len * idx / total_batches)
-                progress_bar = "#" * filled + " " * (bar_len - filled)
-
-                print(f"\rEpoch: {e}/{epochs} | [{progress_bar}] Batch: {idx}/{total_batches} - Batch accuracy: {acc}% ", end="", flush=True)
+                self.__display_progress(idx, e, total_batches, epochs, acc)
 
         # compute and display accuracy with the full data
         y_pred = self.__forward_feed(x)
