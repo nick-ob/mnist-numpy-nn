@@ -25,11 +25,14 @@ def load_mnist() -> tuple[tuple[np.ndarray, np.ndarray], tuple[np.ndarray, np.nd
         Returns:
             np.ndarray: Flattened image data.
         """
-        with gz.open(path, "rb") as file:
-            # first 16 bytes header
-            file.read(16)
+        try:
+            with gz.open(path, "rb") as file:
+                # first 16 bytes header
+                file.read(16)
 
-            data: np.ndarray = np.frombuffer(file.read(), dtype=np.uint8)
+                data: np.ndarray = np.frombuffer(file.read(), dtype=np.uint8)
+        except Exception as e:
+            raise Exception(f"Failed to load {path}: {e}")
 
         # flatten data and normalize (input is originally 0-255) to values from 0 to 1
         return data.reshape(-1, 28 * 28).astype(np.float32) / 255.0
@@ -43,11 +46,14 @@ def load_mnist() -> tuple[tuple[np.ndarray, np.ndarray], tuple[np.ndarray, np.nd
         Returns:
             np.ndarray: One-hot encoded image data.
         """
-        with gz.open(path, "rb") as file:
-            # first 8 bytes header
-            file.read(8)
+        try:
+            with gz.open(path, "rb") as file:
+                # first 8 bytes header
+                file.read(8)
 
-            data: np.ndarray = np.frombuffer(file.read(), dtype=np.uint8)
+                data: np.ndarray = np.frombuffer(file.read(), dtype=np.uint8)
+        except Exception as e:
+            raise Exception(f"Failed to load {path}: {e}")
 
         # one-hot encode using an identity matrix
         return np.eye(10)[data]
