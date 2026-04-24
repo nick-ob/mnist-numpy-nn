@@ -273,6 +273,8 @@ class Network:
         # restore architecture and parameters
         with np.load(saved_dir) as data:
             arch = data["arch"]
+            # convert to integers to pass validation checks
+            arch = tuple(int(n) for n in data["arch"])
             costs = data["cost_history"]
             acc = data["acc_history"]
 
