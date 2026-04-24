@@ -59,7 +59,8 @@ def save_cost(cost_history: list, name: str) -> None:
     plt.ylabel("Cost")
     plt.legend()
     plt.tight_layout()
-    plt.xscale("log")
+    plt.xscale("symlog", linthresh=500)
+    plt.xlim(left=0)
 
     plt.savefig(file_dir, dpi=200)
     plt.close()
@@ -98,7 +99,8 @@ def save_accuracy(acc_history: list, acc_test: float, name: str) -> None:
     plt.ylabel("Accuracy")
     plt.legend()
     plt.tight_layout()
-    plt.xscale("log")
+    plt.xscale("symlog", linthresh=500)
+    plt.xlim(left=0)
 
     plt.savefig(file_dir, dpi=200)
     plt.close()
