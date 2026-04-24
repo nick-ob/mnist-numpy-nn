@@ -117,9 +117,6 @@ is effectively learning through gradient-based optimization.
 ![Correcty Classified Examples](results/readme/correctly_classified.png)
 ![Misclassified Examples](results/readme/misclassifications.png)
 
-Visualisations of different models can be found in the
-[`results/`](results/) directory.
-
 ## Project Structure
 
 ```text
@@ -138,14 +135,15 @@ mnist-numpy-nn/
 |   |-- loss.py                # CCE loss + accuracy metric
 |   |-- visualisations.py      # plots + result image exports
 |-- results/
-|   |-- readme/                # plots are saved here
+|   |-- readme/                # plots are saved here under the name
+|   |...                       # variable (see Hyperparameters section)
 |-- notebooks/
     |-- main.ipynb
 ```
 
 ## Tech Stack
 
-- **Python 3.12.3+**
+- **Python**
 - **NumPy** - math
 - **Matplotlib, Seaborn** - visualisations
 
