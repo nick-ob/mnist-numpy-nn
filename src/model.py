@@ -29,6 +29,17 @@ class Network:
         Args:
             nodes: All node counts. Each node count represents the amount of nodes of one layer.
         """
+        # make sure inputs are valid
+        if len(nodes) < 2:
+            raise ValueError("""Network must have at least 2 layers (input + output).
+                             Make sure at least 2 arguments are being passed.""")
+        if nodes[-1] < 2:
+            raise ValueError("""Last layer must have at least 2 nodes,
+                             representing the probability of all possilbe outputs.""")
+        for node in nodes:
+            if type(node) is not int or node < 1:
+                raise ValueError("""All layer node amounts must be positive integers.""")
+
         self.__arch: tuple[int] = nodes
         self.__layers = self.__init_layers(nodes)
         self.__history: dict[str, list] = {}

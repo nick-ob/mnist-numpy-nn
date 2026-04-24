@@ -219,3 +219,6 @@ __marimo__/
 
 # MNIST data
 data/mnist/*.gz
+
+# personal plans for adds/fixes/etc.
+planning/
