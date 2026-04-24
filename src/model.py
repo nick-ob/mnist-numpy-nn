@@ -127,9 +127,11 @@ class Network:
         filled = int(bar_len * idx / batches)
         progress_bar = "#" * filled + " " * (bar_len - filled)
 
-        print(f"""\rEpoch: {e}/{epochs} | 
-              [{progress_bar}] Batch: {idx}/{batches} - Batch accuracy: {acc}% """
-              , end="", flush=True)
+        print(
+            f"\rEpoch: {e}/{epochs} | "
+            f"[{progress_bar}] Batch: {idx}/{batches} - Batch accuracy: {acc}% ",
+            end="", flush=True
+        )
 
     def train(
             self, data: tuple[np.ndarray, np.ndarray],
