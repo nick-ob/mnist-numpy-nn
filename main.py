@@ -27,24 +27,22 @@ from src.visualisations import save_cost, save_accuracy, save_confusion_matrix, 
 
 # %%
 (x_train, y_train), (x_test, y_test) = load_mnist()
-print("MNIST data loaded:")
-print(f"Training shapes: {x_train.shape} & {y_train.shape}")
-print(f"Testing shapes: {x_test.shape} & {y_test.shape}")
-print()
+print("MNIST data loaded")
 
 # %% [markdown]
 # ## Initialise the network
 
 # %%
-network = Network(784, 128, 64, 10)
-# use this line instead to load a pretrained network
+network = Network(784, 512, 512, 10)
+
+# to load an already trained network
 # network, history = Network.load("readme")
 
 # %% [markdown]
 # ## Training the network
 
 # %%
-history = network.train((x_train, y_train), 0.01, 20, batch_size=256)
+history = network.train((x_train, y_train), 0.1, 100, batch_size=128)
 print()
 
 # %% [markdown]
@@ -57,7 +55,7 @@ pred, act, acc = network.test((x_test, y_test))
 # ## Saving the model and its results
 
 # %%
-name: str = "arch_784_128_64_10-lr_0.01-epos_20-bs_256"
+name: str = "readme"
 network.save(name)
 save_cost(history["cost"], name)
 save_accuracy(history["accuracy"], acc, name)

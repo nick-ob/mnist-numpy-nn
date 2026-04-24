@@ -69,6 +69,27 @@ save_classified(x_test, pred, act, name)
 
 ## Results
 
+<details>
+<summary><b>Hyperparameters & Configuration</b></summary>
+
+Current and used settings (in `main.py`):
+
+```bash
+Network(784, 512, 512, 10)  # Architecture
+train(..., lr=0.1, epochs=100, batch_size=128)
+```
+
+**Why these values?**
+
+- `lr=0.1`: Fast convergence without overshooting
+- `batch_size=128`: Good balance between stability and speed
+- `512→512`: Enough capacity without overfitting on MNIST
+
+To experiment: Adjust any hyperparameters in `main.py`, set the `name`
+variable to save under, then rerun. The results are saved in [`results/`](results/)
+under the set `name` variable.
+</details>
+
 ### Accuracy over Iterations
 
 ![Accuracy](results/readme/accuracy_over_iterations.png)
