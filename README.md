@@ -3,7 +3,7 @@
 A from scratch fully connected neural network to classify the MNIST dataset
 programmed in python. This project purposefully avoids ML frameworks and focuses
 on understanding the underlying principles of how neural networks work by using
-only NumPy. 
+only NumPy.
 
 ## Quick Start
 
